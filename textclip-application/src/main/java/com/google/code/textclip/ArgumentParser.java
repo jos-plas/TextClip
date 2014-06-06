@@ -26,6 +26,8 @@
 package com.google.code.textclip;
 
 
+import org.kohsuke.args4j.Option;
+
 import java.io.File;
 
 /**

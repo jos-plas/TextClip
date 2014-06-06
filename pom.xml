@@ -4,14 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.t2c.com.google.code.textclip</groupId>
-    <artifactId>com.google.code.textclip</artifactId>
-    <version>0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <groupId>com.google.code.textclip</groupId>
+    <artifactId>textclip-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
 
     <name>TextClip</name>
-    <description>TextClip puts generated strings in the clipboard.</description>
+    <description>Parent POM for TextClip</description>
+    <url>http://code.google.com/p/textclip/</url>
 
     <licenses>
         <license>
@@ -41,22 +42,31 @@
         <!-- Dependencies versions -->
         <junit.version>4.11</junit.version>
         <args4j.version>2.0.28</args4j.version>
-
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+    <modules>
+        <module>textclip-application</module>
+    </modules>
 
-        <dependency>
-            <groupId>args4j</groupId>
-            <artifactId>args4j</artifactId>
-            <version>${args4j.version}</version>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- TextClip -->
 
+
+            <!-- Test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Argument Parser -->
+            <dependency>
+                <groupId>args4j</groupId>
+                <artifactId>args4j</artifactId>
+                <version>${args4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

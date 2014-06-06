@@ -24,6 +24,7 @@
  */
 package com.google.code.textclip;
 
+import com.google.code.textclip.enums.TextClipError;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Ignore;
