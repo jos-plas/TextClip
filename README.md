@@ -1,2 +1,2 @@
-textclip
+com.google.code.textclip
 ========

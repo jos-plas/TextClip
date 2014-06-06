@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.t2c.textclip</groupId>
-    <artifactId>textclip</artifactId>
+    <groupId>org.t2c.com.google.code.textclip</groupId>
+    <artifactId>com.google.code.textclip</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -21,9 +21,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:jos-plas/textclip.git</connection>
-        <developerConnection>scm:git:git@github.com:jos-plas/textclip.git</developerConnection>
-        <url>git@github.com:jos-plas/textclip.git</url>
+        <connection>scm:git:git@github.com:jos-plas/com.google.code.textclip.git</connection>
+        <developerConnection>scm:git:git@github.com:jos-plas/com.google.code.textclip.git</developerConnection>
+        <url>git@github.com:jos-plas/com.google.code.textclip.git</url>
         <tag>HEAD</tag>
     </scm>
 
