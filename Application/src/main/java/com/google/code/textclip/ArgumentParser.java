@@ -25,16 +25,15 @@
 
 package com.google.code.textclip;
 
-import org.kohsuke.args4j.Option;
 
 import java.io.File;
 
 /**
- * Argument parser class for textclip.
+ * Argument parser class for com.google.code.textclip.
  *
  * This class configures and stores the commandline arguments. It is tailored
  * for the application that copies text to the clipboard depending on the
- * arguments provided to the application. The application is called textclip.
+ * arguments provided to the application. The application is called com.google.code.textclip.
  */
 public class ArgumentParser {
     @Option(name = "-h", aliases = "--help", usage = "print this message")
