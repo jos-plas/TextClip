@@ -22,25 +22,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.t2c.textclip.exceptions;
+package com.google.code.textclip.exceptions;
 
-import java.io.File;
 
 /**
  * Signals that an open file has no content (is empty file).
  *
  */
-public class FileContentException extends Exception {
-    File file = null;
+public class OutOfRangeException extends Exception {
 
-    public FileContentException(File file) {
-        this.file = file;
-    }
-
-    public String toString() {
-        String result = "file \"" + this.file.getName() + "\" ";
-        return this.file.length() == 0
-                ? result+"is empty."
-                : result+"too large.";
+    public OutOfRangeException(String message) {
+        super(message);
     }
 }

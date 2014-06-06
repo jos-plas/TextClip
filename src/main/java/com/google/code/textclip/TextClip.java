@@ -23,13 +23,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.t2c.textclip;
+package com.google.code.textclip;
 
+import com.google.code.textclip.enums.TextClipError;
+import com.google.code.textclip.exceptions.FileContentException;
+import com.google.code.textclip.exceptions.OutOfRangeException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.t2c.textclip.enums.TextClipError;
-import org.t2c.textclip.exceptions.FileContentException;
-import org.t2c.textclip.exceptions.OutOfRangeException;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

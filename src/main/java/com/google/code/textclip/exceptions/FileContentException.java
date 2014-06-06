@@ -22,50 +22,25 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.google.code.textclip.exceptions;
 
-package org.t2c.textclip.enums;
+import java.io.File;
 
+/**
+ * Signals that an open file has no content (is empty file).
+ *
+ */
+public class FileContentException extends Exception {
+    File file = null;
 
-public enum TextClipError {
-    NO_ERROR(0),
-    ERROR_PARSING_ARGUMENTS(1),;
-
-    private final int error;
-
-    /**
-     *
-     * @param theError value is one of the error values in the enumeration.
-     */
-    TextClipError(int theError) {
-        this.error = theError;
+    public FileContentException(File file) {
+        this.file = file;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int toInt() {
-        return this.error;
-    }
-
-    public String getMessage() {
-        String result = ""; // NO_ERROR
-            switch (error) {
-            case 1:
-                result = "This is a general warning. There seems to be an" +
-                        " error in the command provided argument list." +
-                        " Please verify all arguments.";
-            break;
-
-            case 2:
-                result = "The chosen (extended) ASCII value is out of range (1..254).";
-            break;
-
-            case 0:
-            default:
-                result = "";
-            break;
-        }
-        return result;
+    public String toString() {
+        String result = "file \"" + this.file.getName() + "\" ";
+        return this.file.length() == 0
+                ? result+"is empty."
+                : result+"too large.";
     }
 }

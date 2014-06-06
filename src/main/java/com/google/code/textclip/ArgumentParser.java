@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.t2c.textclip;
+package com.google.code.textclip;
 
 import org.kohsuke.args4j.Option;
 

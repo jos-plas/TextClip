@@ -23,11 +23,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.t2c.textclip;
+package com.google.code.textclip;
 
+import com.google.code.textclip.TextGenerator;
+import com.google.code.textclip.exceptions.FileContentException;
+import com.google.code.textclip.exceptions.OutOfRangeException;
 import junit.framework.TestCase;
-import org.t2c.textclip.exceptions.FileContentException;
-import org.t2c.textclip.exceptions.OutOfRangeException;
 import org.junit.Test;
 
 import java.io.File;

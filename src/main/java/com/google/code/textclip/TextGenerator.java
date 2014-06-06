@@ -22,10 +22,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.t2c.textclip;
+package com.google.code.textclip;
 
-import org.t2c.textclip.exceptions.FileContentException;
-import org.t2c.textclip.exceptions.OutOfRangeException;
+
+import com.google.code.textclip.exceptions.FileContentException;
+import com.google.code.textclip.exceptions.OutOfRangeException;
 
 import java.io.File;
 import java.io.FileInputStream;

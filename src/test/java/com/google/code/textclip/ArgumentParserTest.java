@@ -22,8 +22,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.t2c.textclip;
+package com.google.code.textclip;
 
+import com.google.code.textclip.ArgumentParser;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;

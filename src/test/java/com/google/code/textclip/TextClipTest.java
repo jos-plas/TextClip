@@ -22,14 +22,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.t2c.textclip;
+package com.google.code.textclip;
 
+import com.google.code.textclip.ArgumentParser;
+import com.google.code.textclip.TextClip;
+import com.google.code.textclip.enums.TextClipError;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kohsuke.args4j.CmdLineParser;
-import org.t2c.textclip.enums.TextClipError;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
