@@ -12,7 +12,6 @@
 
     <name>TextClip</name>
     <description>TextClip puts generated strings in the clipboard.</description>
-    <!--<url>http://code.google.com/p/validationframework</url>-->
 
     <licenses>
         <license>
@@ -21,12 +20,12 @@
         </license>
     </licenses>
 
-    <!--<scm>-->
-        <!--<connection>scm:git:git@github.com:padrig64/ValidationFramework.git</connection>-->
-        <!--<developerConnection>scm:git:git@github.com:padrig64/ValidationFramework.git</developerConnection>-->
-        <!--<url>git@github.com:padrig64/ValidationFramework.git</url>-->
-        <!--<tag>HEAD</tag>-->
-    <!--</scm>-->
+    <scm>
+        <connection>scm:git:git@github.com:jos-plas/textclip.git</connection>
+        <developerConnection>scm:git:git@github.com:jos-plas/textclip.git</developerConnection>
+        <url>git@github.com:jos-plas/textclip.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <developers>
         <developer>
