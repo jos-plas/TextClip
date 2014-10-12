@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.google.code.textclip;
+package com.google.code.textclip.helpers;
 
 
 import org.kohsuke.args4j.Option;
@@ -32,10 +32,11 @@ import java.io.File;
 
 /**
  * Argument parser class for com.google.code.textclip.
- *
+ * <p/>
  * This class configures and stores the commandline arguments. It is tailored
  * for the application that copies text to the clipboard depending on the
- * arguments provided to the application. The application is called com.google.code.textclip.
+ * arguments provided to the application. The application is called
+ * com.google.code.textclip.
  */
 public class ArgumentParser {
     @Option(name = "-h", aliases = "--help", usage = "print this message")
@@ -50,14 +51,14 @@ public class ArgumentParser {
     @Option(name = "-a", aliases = {"--allchars"},
             usage = "produces a string that includes all character codes from" +
                     " 1 to 255 ",
-            forbids = {"-ch", "-co", "-t","-f"})
+            forbids = {"-ch", "-co", "-t", "-f"})
     private boolean allcharacters = false;
 
 
     @Option(name = "-ch", aliases = {"--char"}, metaVar = "<ASCII value>",
             usage = "produces a character from given ASCII value; \"-ch 32\" " +
                     "will produce a space character",
-            forbids = {"-a", "-co", "-t","-f"})
+            forbids = {"-a", "-co", "-t", "-f"})
     private String ascii_value = "";
 
 
@@ -70,20 +71,20 @@ public class ArgumentParser {
                     "the string. This is useful for pasting into fields that " +
                     "cut off text, so that you can tell how many characters" +
                     " were actually pasted.",
-            forbids = {"-ch", "-a", "-t","-f"})
+            forbids = {"-ch", "-a", "-t", "-f"})
     private String counterstring = "";
 
 
     @Option(name = "-t", aliases = {"--text"}, metaVar = "<text>",
             usage = "this text will be copied to the clipboard",
-            forbids = {"-ch", "co", "-a","-t"})
+            forbids = {"-ch", "co", "-a", "-f"})
     private String text = "";
 
 
     @Option(name = "-f", aliases = {"--filename"}, metaVar = "<file>",
             usage = "this text will be copied to the clipboard",
             forbids = {"-ch", "co", "-a"})
-    private File file=null;
+    private File file = null;
 
     /*
     |---------------------------------------------------------------------------
@@ -96,26 +97,23 @@ public class ArgumentParser {
     */
 
     /**
-     *
      * @return <code>true</code> if the user is requesting for help text
-     *                              (-h | --help on the command line);
-     *         <code>false</code> otherwise
+     * (-h | --help on the command line);
+     * <code>false</code> otherwise
      */
     public boolean isHelp() {
         return help;
     }
 
     /**
-     *
      * @return the multiply factor e.g. 10 means that the string will copied 10
-     *              times to the clipboard.
+     * times to the clipboard.
      */
     public long getMultiply() {
         return multiply;
     }
 
     /**
-     *
      * @return
      */
     public boolean isAllcharacters() {
@@ -123,7 +121,14 @@ public class ArgumentParser {
     }
 
     /**
-     *
+     * @return
+     */
+    public boolean isAsciiValue() {
+        return !ascii_value.isEmpty();
+    }
+
+
+    /**
      * @return
      */
     public String getAscii_value() {
@@ -131,7 +136,13 @@ public class ArgumentParser {
     }
 
     /**
-     *
+     * @return
+     */
+    public boolean isCounterstring() {
+        return !counterstring.isEmpty();
+    }
+
+    /**
      * @return
      */
     public String getCounterstring() {
@@ -139,7 +150,14 @@ public class ArgumentParser {
     }
 
     /**
-     *
+     * @return
+     */
+    public boolean isText() {
+        return !text.isEmpty();
+    }
+
+
+    /**
      * @return
      */
     public String getText() {
@@ -147,10 +165,18 @@ public class ArgumentParser {
     }
 
     /**
-     *
      * @return
      */
-    public File getFilename() {
+    public File getFile() {
         return file;
     }
+
+    /**
+     * @return
+     */
+    public boolean isFile() {
+        return file != null;
+    }
+
+
 }

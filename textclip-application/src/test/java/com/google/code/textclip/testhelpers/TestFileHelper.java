@@ -22,52 +22,30 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.google.code.textclip.testhelpers;
 
-package com.google.code.textclip.enums;
+import org.junit.rules.TemporaryFolder;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
-public enum TextClipError {
-    NO_ERROR(0),
-    ERROR_PARSING_ARGUMENTS(1),
-    ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE(2),
-    ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING(3);
+public class TestFileHelper {
+    private TemporaryFolder testFolder = null;
 
-    private final int error;
-
-    /**
-     * @param theError value is one of the error values in the enumeration.
-     */
-    TextClipError(int theError) {
-        this.error = theError;
+    public TestFileHelper(TemporaryFolder newFolder) {
+        this.testFolder = newFolder;
     }
 
-    /**
-     * @return
-     */
-    public int toInt() {
-        return this.error;
-    }
+    public File createFile(String testContent) throws IOException {
+        File theTestFile = testFolder.newFile();
 
-    public String getMessage() {
-        String result = ""; // NO_ERROR
-        switch (error) {
-            case 1:
-                result = "There is a mistake in the arguments; use --help for detailed argument information.";
-                break;
-
-            case 2:
-                result = "The chosen (extended) ASCII value is out of range (1..254).";
-                break;
-
-            case 3:
-                result = "Format of argument counter string should be like: -co \"10:a\".";
-                break;
-
-            case 0:
-            default:
-                result = "";
-                break;
+        if (!testContent.isEmpty()) {
+            BufferedWriter output = new BufferedWriter(new FileWriter(theTestFile));
+            output.write(testContent);
+            output.close();
         }
-        return result;
+        return theTestFile;
     }
 }

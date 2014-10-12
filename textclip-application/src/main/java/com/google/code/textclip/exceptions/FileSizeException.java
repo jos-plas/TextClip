@@ -28,19 +28,18 @@ import java.io.File;
 
 /**
  * Signals that an open file has no content (is empty file).
- *
  */
-public class FileContentException extends Exception {
-    File file = null;
+public class FileSizeException extends Exception {
+    private File file = null;
 
-    public FileContentException(File file) {
+    public FileSizeException(File file) {
         this.file = file;
     }
 
     public String toString() {
-        String result = "file \"" + this.file.getName() + "\" ";
+        String result = "File \"" + this.file.getName() + "\" ";
         return this.file.length() == 0
-                ? result+"is empty."
-                : result+"too large.";
+                ? result + "is empty."
+                : result + "too large.";
     }
 }

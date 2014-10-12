@@ -23,51 +23,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.google.code.textclip.enums;
+package com.google.code.textclip.generators;
 
+import java.io.IOException;
 
-public enum TextClipError {
-    NO_ERROR(0),
-    ERROR_PARSING_ARGUMENTS(1),
-    ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE(2),
-    ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING(3);
-
-    private final int error;
+/**
+ * Interface of the products; functioning in the factory pattern.
+ */
+public interface GeneratorProduct {
 
     /**
-     * @param theError value is one of the error values in the enumeration.
+     * Generates a string with ASCII characters according to the characteristics
+     * of the subclass.
+     * <p/>
+     * Example:
+     * a ASCII generator working in the range (65,70) returns a string "ABCDEF".
+     *
+     * @return generated ascii character string
      */
-    TextClipError(int theError) {
-        this.error = theError;
-    }
-
-    /**
-     * @return
-     */
-    public int toInt() {
-        return this.error;
-    }
-
-    public String getMessage() {
-        String result = ""; // NO_ERROR
-        switch (error) {
-            case 1:
-                result = "There is a mistake in the arguments; use --help for detailed argument information.";
-                break;
-
-            case 2:
-                result = "The chosen (extended) ASCII value is out of range (1..254).";
-                break;
-
-            case 3:
-                result = "Format of argument counter string should be like: -co \"10:a\".";
-                break;
-
-            case 0:
-            default:
-                result = "";
-                break;
-        }
-        return result;
-    }
+    public String generate() throws IOException;
 }

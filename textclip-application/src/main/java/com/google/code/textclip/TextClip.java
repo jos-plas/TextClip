@@ -26,8 +26,12 @@
 package com.google.code.textclip;
 
 import com.google.code.textclip.enums.TextClipError;
-import com.google.code.textclip.exceptions.FileContentException;
+import com.google.code.textclip.exceptions.FileSizeException;
+import com.google.code.textclip.exceptions.FormatException;
+import com.google.code.textclip.exceptions.InvalidGeneratorProductException;
 import com.google.code.textclip.exceptions.OutOfRangeException;
+import com.google.code.textclip.generators.GeneratorFactory;
+import com.google.code.textclip.helpers.ArgumentParser;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -38,19 +42,14 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 
-/**
- * Created by Jos on 30-5-14.
- *
- */
 public class TextClip implements ClipboardOwner {
     private final ArgumentParser options = new ArgumentParser();
     private final CmdLineParser parser = new CmdLineParser(options);
     private TextClipError status = TextClipError.NO_ERROR;
-    private String testString = "";
+    private GeneratorFactory factory = new GeneratorFactory();
 
 
     /**
-     *
      * @param argumentList provide here the argument list like a string array:
      *                     {@code {"-t","textfile.txt","-m","10"}. This
      *                     indicates that the content of "textfile.txt" will be
@@ -67,12 +66,11 @@ public class TextClip implements ClipboardOwner {
     }
 
     /**
-     *
      * @return the status object of the class. For instance the status can
-     *                  change due to errors in the argument list provided by the
-     *                  user (see constructor). When a user enters an unknown
-     *                  argument the status will change to
-     *                  ERROR_UNKNOWN_ARGUMENT_PROVIDED.
+     * change due to errors in the argument list provided by the
+     * user (see constructor). When a user enters an unknown
+     * argument the status will change to
+     * ERROR_UNKNOWN_ARGUMENT_PROVIDED.
      */
     public TextClipError getStatus() {
         return status;
@@ -80,63 +78,12 @@ public class TextClip implements ClipboardOwner {
 
 
     /**
-     *
-     */
-    public void createTestString()  {
-        if (options.isAllcharacters()) {
-            constructTestStringASCIIRange();
-        } else if (options.getFilename() != null) {
-            createTestStringFromFile();
-        } else {
-            constructTestStringOptionASCII();
-        }
-    }
-
-    /**
-     *
-     */
-    private void constructTestStringASCIIRange() {
-        try {
-            this.testString = TextGenerator.generateASCII();
-        } catch (OutOfRangeException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     *
-     */
-    private void createTestStringFromFile(){
-        final String option_text = "Argument -f|--filename: ";
-        try {
-            this.testString = TextGenerator.generateFromFile(options.getFilename());
-        } catch (FileContentException e) {
-            System.out.println(option_text + e.toString());
-        } catch (IOException e) {
-            System.out.println(option_text+ e.getMessage());
-        }
-    }
-
-    /**
-     *
-     */
-    private void constructTestStringOptionASCII() {
-        int ascii_value = new Integer(options.getAscii_value()).intValue();
-        try {
-            this.testString = TextGenerator.generateASCII(ascii_value);
-        } catch (OutOfRangeException e) {
-            System.out.println("Argument -ch | --char: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Place the test string on the clipboard, and make this class the
+     * Place the test string on the clipboard, and generate this class the
      * owner of the Clipboard's contents.
      */
-    public void copyTestStringtoClipboard(){
-        StringSelection stringSelection = new StringSelection(this.testString);
+    public void toClipboard(String theString) {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, this);
+        clipboard.setContents(new StringSelection(theString), this);
     }
 
     @Override
@@ -144,49 +91,27 @@ public class TextClip implements ClipboardOwner {
         //Empty implementation of the ClipboardOwner interface. -> do nothing
     }
 
-    /**
-     *
-     * @return
-     */
-    private boolean isHelpRequested() {
-        return this.options.isHelp();
-    }
-
-    /**
-     *
-     */
-    private void printHelpText() {
-        parser.printUsage(System.out);
-        System.out.println();
-    }
 
     /**
      * this method delegates the actual work. It processes the read arguments and
      * constructs the test string. When the test string is constructed it is
      * copied to the clipboard.
      */
-    public void textToClipboard() throws IOException {
-        if (!this.isHelpRequested()) {
-            this.createTestString();
-            this.copyTestStringtoClipboard();
+    public void textToClipboard() throws IOException, OutOfRangeException, FormatException, FileSizeException, InvalidGeneratorProductException {
+        if (!this.options.isHelp()) {
+            this.toClipboard(this.factory.make(this.options).generate());
         } else {
-            this.printHelpText();
+            parser.printUsage(System.out);
+            System.out.println();
         }
     }
 
-    /**
-     *
-     * @return the test string.
-     */
-    public String getTestString() {
-        return testString;
-    }
 
     /**
      * The TextClip class implements an application that reads the terminal
      * commandline options. Depending on the arguments text will be copied to
      * the Operating Systems clipboard.
-     *
+     * <p/>
      * The application terminates the currently running Java Virtual Machine
      * with a status code. By convention, a nonzero status code indicates
      * abnormal termination.
@@ -194,12 +119,12 @@ public class TextClip implements ClipboardOwner {
      * @param args the argument list from the terminal commandline. The
      *             arguments are parsed with the ArgumentParser class.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, OutOfRangeException, FormatException, FileSizeException, InvalidGeneratorProductException {
         final TextClip theApp = new TextClip(args);
         theApp.textToClipboard();
-        final String message = (theApp.getStatus()==TextClipError.NO_ERROR)
-                            ? "Test string is copied to the clipboard."
-                            : theApp.getStatus().getMessage();
+        final String message = (theApp.getStatus() == TextClipError.NO_ERROR)
+                ? "Test string is copied to the clipboard."
+                : theApp.getStatus().getMessage();
         System.out.println(message);
         System.exit(theApp.getStatus().toInt());
     }

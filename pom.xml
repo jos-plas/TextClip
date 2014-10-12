@@ -46,6 +46,7 @@
 
     <modules>
         <module>textclip-application</module>
+        <module>logwatch-application</module>
     </modules>
 
     <dependencyManagement>

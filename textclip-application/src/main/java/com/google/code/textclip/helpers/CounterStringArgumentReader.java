@@ -22,52 +22,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.google.code.textclip.helpers;
 
-package com.google.code.textclip.enums;
+import com.google.code.textclip.exceptions.FormatException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public enum TextClipError {
-    NO_ERROR(0),
-    ERROR_PARSING_ARGUMENTS(1),
-    ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE(2),
-    ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING(3);
+public class CounterStringArgumentReader {
+    private int length = 1;
+    private char character = '?';
 
-    private final int error;
+    public CounterStringArgumentReader(final String optionString)
+            throws FormatException {
+        Pattern pattern = Pattern.compile("^(\\d+):(.)$");
+        Matcher matcher = pattern.matcher(optionString);
 
-    /**
-     * @param theError value is one of the error values in the enumeration.
-     */
-    TextClipError(int theError) {
-        this.error = theError;
-    }
-
-    /**
-     * @return
-     */
-    public int toInt() {
-        return this.error;
-    }
-
-    public String getMessage() {
-        String result = ""; // NO_ERROR
-        switch (error) {
-            case 1:
-                result = "There is a mistake in the arguments; use --help for detailed argument information.";
-                break;
-
-            case 2:
-                result = "The chosen (extended) ASCII value is out of range (1..254).";
-                break;
-
-            case 3:
-                result = "Format of argument counter string should be like: -co \"10:a\".";
-                break;
-
-            case 0:
-            default:
-                result = "";
-                break;
+        if (matcher.matches()) {
+            this.length = Integer.parseInt(matcher.group(1));
+            this.character = matcher.group(2).charAt(0);
+        } else {
+            throw new FormatException("String does not meet requirements, e.g. 25:d.");
         }
-        return result;
+    }
+
+    public int getLength() {
+        return this.length;
+    }
+
+    public char getCharacter() {
+        return this.character;
     }
 }

@@ -27,7 +27,6 @@ package com.google.code.textclip.exceptions;
 
 /**
  * Signals that an open file has no content (is empty file).
- *
  */
 public class OutOfRangeException extends Exception {
 
