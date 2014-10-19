@@ -129,7 +129,7 @@ public class FromFileGeneratorProductTest {
         /*
             ACT & ASSERT
          */
-        TestCase.assertTrue("Temporary file has been deleted",theTestFile.delete());
+        TestCase.assertTrue("Temporary file has been deleted", theTestFile.delete());
         theProduct.generate();
     }
 

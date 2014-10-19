@@ -22,33 +22,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.google.code.textclip.generators;
+package com.google.code.textclip.helpers;
 
-import com.google.code.textclip.exceptions.OutOfRangeException;
+import com.google.code.textclip.exceptions.FormatException;
 
-public class AsciiGeneratorProduct implements GeneratorProduct {
-    private ASCIIDataContainer container;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    public AsciiGeneratorProduct(final int theLowerLimit, final int theUpperLimit)
-            throws OutOfRangeException {
-        container = new ASCIIDataContainer(theLowerLimit, theUpperLimit);
-    }
+public class RandomStringArgumentParser {
+    private int upper_limit = 0;
+    private int lower_limit = 0;
+    private int length = 0;
 
-    public AsciiGeneratorProduct(final int character) throws OutOfRangeException {
-        this(character, character);
-    }
+    public RandomStringArgumentParser(final String optionString)
+            throws FormatException {
+        Pattern pattern = Pattern.compile("^(\\d+):(\\d+):(\\d+)$");
+        Matcher matcher = pattern.matcher(optionString);
 
-    public AsciiGeneratorProduct() throws OutOfRangeException {
-        container = new ASCIIDataContainer();
-    }
-
-    @Override
-    public String generate() {
-        String ascii = "";
-        for (int i = container.getLowerLimit(); i <= container.getUpperLimit(); i++) {
-            ascii += Character.toString((char) i);
+        if (matcher.matches()) {
+            parseGroups(matcher);
+        } else {
+            throw new FormatException("String does not meet requirements, e.g. 25:30:35");
         }
+    }
 
-        return ascii;
+    public int getUpperLimit() {
+        return upper_limit;
+    }
+
+    public int getLowerLimit() {
+        return lower_limit;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    private void parseGroups(Matcher matcher) {
+        this.lower_limit = Integer.parseInt(matcher.group(1));
+        this.upper_limit = Integer.parseInt(matcher.group(2));
+        this.length = Integer.parseInt(matcher.group(3));
     }
 }

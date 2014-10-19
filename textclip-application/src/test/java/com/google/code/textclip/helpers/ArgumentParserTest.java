@@ -98,6 +98,7 @@ public class ArgumentParserTest {
             TestCase.assertFalse("NOT file", options.isFile());
             TestCase.assertFalse("NOT all chars", options.isAllcharacters());
             TestCase.assertFalse("NOT ascii", options.isAsciiValue());
+            TestCase.assertFalse("NOT random", options.isRandom());
         }
     }
 
@@ -133,6 +134,7 @@ public class ArgumentParserTest {
             TestCase.assertFalse("NOT file", options.isFile());
             TestCase.assertFalse("NOT all chars", options.isAllcharacters());
             TestCase.assertFalse("NOT ascii", options.isAsciiValue());
+            TestCase.assertFalse("NOT random", options.isRandom());
         }
     }
 
@@ -167,6 +169,7 @@ public class ArgumentParserTest {
             TestCase.assertFalse("NOT counterstring", options.isCounterstring());
             TestCase.assertFalse("NOT file", options.isFile());
             TestCase.assertFalse("NOT ascii", options.isAsciiValue());
+            TestCase.assertFalse("NOT random", options.isRandom());
         }
     }
 
@@ -183,6 +186,7 @@ public class ArgumentParserTest {
             TestCase.assertFalse("NOT counterstring", options.isCounterstring());
             TestCase.assertFalse("NOT all chars", options.isAllcharacters());
             TestCase.assertFalse("NOT ascii", options.isAsciiValue());
+            TestCase.assertFalse("NOT random", options.isRandom());
         }
     }
 
@@ -209,6 +213,7 @@ public class ArgumentParserTest {
             TestCase.assertFalse("NOT counterstring", options.isCounterstring());
             TestCase.assertFalse("NOT all chars", options.isAllcharacters());
             TestCase.assertFalse("NOT file", options.isFile());
+            TestCase.assertFalse("NOT random", options.isRandom());
         }
     }
 
@@ -230,73 +235,47 @@ public class ArgumentParserTest {
      * It makes no sense (at least for the moment) to for instance create a string (-t) and
      * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
      * these type of combinations. All forbidden combinations are tested in this testcase.
+     * <p/>
+     * ALL CHARACTERS
      */
+
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_a_ch() throws CmdLineException {
         String[] testData = {"-a", "-ch", "25"};
         parser.parseArgument(testData);
     }
 
-
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_a_c0() throws CmdLineException {
         String[] testData = {"-a", "-c0", "25:*"};
         parser.parseArgument(testData);
     }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_a_t() throws CmdLineException {
         String[] testData = {"-a", "-t", "TEXT"};
         parser.parseArgument(testData);
     }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_a_f() throws CmdLineException {
         String[] testData = {"-a", "-f", "the_filename.txt"};
         parser.parseArgument(testData);
     }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
+    @Test(expected = CmdLineException.class)
+    public void validateForbiddenCombinations_a_ra() throws CmdLineException {
+        String[] testData = {"-a", "-ra", "10:20:30"};
+        parser.parseArgument(testData);
+    }
+
+    /* CHARACTER */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_ch_co() throws CmdLineException {
         String[] testData = {"-ch", "251", "-co", "80:a"};
         parser.parseArgument(testData);
     }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_ch_t() throws CmdLineException {
         String[] testData = {"-ch", "251", "-t", "TEXT2"};
@@ -304,56 +283,91 @@ public class ArgumentParserTest {
     }
 
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_ch_f() throws CmdLineException {
         String[] testData = {"-ch", "251", "-f", "filename.txt"};
         parser.parseArgument(testData);
     }
 
+    @Test(expected = CmdLineException.class)
+    public void validateForbiddenCombinations_ch_ra() throws CmdLineException {
+        String[] testData = {"-ch", "251", "-ra", "20:30:40"};
+        parser.parseArgument(testData);
+    }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
+
+    /* COUNTERSTRING */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_co_t() throws CmdLineException {
         String[] testData = {"-co", "251:*", "-t", "TEXT3"};
         parser.parseArgument(testData);
     }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_co_f() throws CmdLineException {
         String[] testData = {"-co", "251:*", "-f", "filename.txt"};
         parser.parseArgument(testData);
     }
 
-    /**
-     * Validate Forbidden commandline combinations
-     * <p/>
-     * It makes no sense (at least for the moment) to for instance create a string (-t) and
-     * have a character (-ch) for output as well. The ArgumentParser is setup to forbid a
-     * these type of combinations. All forbidden combinations are tested in this testcase.
-     */
+    @Test(expected = CmdLineException.class)
+    public void validateForbiddenCombinations_co_ra() throws CmdLineException {
+        String[] testData = {"-co", "251:*", "-ra", "30:40:50"};
+        parser.parseArgument(testData);
+    }
+
+    /* FILE */
     @Test(expected = CmdLineException.class)
     public void validateForbiddenCombinations_t_f() throws CmdLineException {
         String[] testData = {"-t", "TEXT4", "-f", "filename.txt"};
         parser.parseArgument(testData);
     }
+
+    @Test(expected = CmdLineException.class)
+    public void validateForbiddenCombinations_t_ra() throws CmdLineException {
+        String[] testData = {"-t", "TEXT4", "-ra", "40:50:60"};
+        parser.parseArgument(testData);
+    }
+
+    /**
+     * ************************************************************************
+     * RANDOM
+     * ************************************************************************
+     */
+    @Test
+    public void isRandom_validArguments() throws CmdLineException {
+        final String[][] args = {{"-ra", "4:25:1000"},
+                {"--random", "250:254:999"}};
+
+        for (String[] arg : args) {
+            parser.parseArgument(arg);
+            TestCase.assertTrue("Random with option: " + arg[0], options.isRandom());
+
+            TestCase.assertFalse("NOT text", options.isCounterstring());
+            TestCase.assertFalse("NOT text", options.isText());
+            TestCase.assertFalse("NOT file", options.isFile());
+            TestCase.assertFalse("NOT all chars", options.isAllcharacters());
+            TestCase.assertFalse("NOT ascii", options.isAsciiValue());
+        }
+    }
+
+    @Test
+    public void isRandom_EmptySecondArgument() throws CmdLineException {
+        final String[][] args = {{"-ra", ""}};
+
+        for (String[] arg : args) {
+            parser.parseArgument(arg);
+            TestCase.assertTrue("Random with option: " + arg[0], !options.isRandom());
+        }
+    }
+
+    @Test
+    public void getRandom_validArguments() throws CmdLineException {
+        final String[][] args = {{"-ra", "100:125:10"}, {"--random", "133:180:9"}};
+
+        for (String[] arg : args) {
+            parser.parseArgument(arg);
+            TestCase.assertSame("Random with option: " + arg[0], arg[1], options.getRandom());
+        }
+    }
 }
+

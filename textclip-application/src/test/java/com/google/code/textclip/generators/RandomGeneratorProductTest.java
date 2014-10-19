@@ -45,7 +45,7 @@ public class RandomGeneratorProductTest {
     public void constructor_LowerLimitHasNegativeValue_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(-10,100,1);
+        new RandomGeneratorProduct(-10, 100, 1);
     }
 
     /**
@@ -55,7 +55,7 @@ public class RandomGeneratorProductTest {
     public void constructor_LowerLimitHasZeroValue_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(0,100,1);
+        new RandomGeneratorProduct(0, 100, 1);
     }
 
     /**
@@ -65,7 +65,7 @@ public class RandomGeneratorProductTest {
     public void constructor_LowerLimitLargerThanUpperLimit_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(101,100,1);
+        new RandomGeneratorProduct(101, 100, 1);
     }
 
 
@@ -76,7 +76,7 @@ public class RandomGeneratorProductTest {
     public void constructor_LowerLimitOverMax_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(255,10,1);
+        new RandomGeneratorProduct(255, 10, 1);
     }
 
 
@@ -87,7 +87,7 @@ public class RandomGeneratorProductTest {
     public void constructor_UpperLimitHasNegativeValue_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(10,-100,1);
+        new RandomGeneratorProduct(10, -100, 1);
     }
 
     /**
@@ -97,7 +97,7 @@ public class RandomGeneratorProductTest {
     public void constructor_UpperLimitHasZeroValue_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(100,0,1);
+        new RandomGeneratorProduct(100, 0, 1);
     }
 
     /**
@@ -107,7 +107,7 @@ public class RandomGeneratorProductTest {
     public void constructor_UpperLimitOverMax_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(101,255,1);
+        new RandomGeneratorProduct(101, 255, 1);
     }
 
     /**
@@ -117,7 +117,7 @@ public class RandomGeneratorProductTest {
     public void constructor_LengthNegativeValue_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(101,255,-1000);
+        new RandomGeneratorProduct(101, 255, -1000);
     }
 
 
@@ -128,7 +128,7 @@ public class RandomGeneratorProductTest {
     public void constructor_LengthZeroValue_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new RandomGeneratorProduct(101,255,0);
+        new RandomGeneratorProduct(101, 255, 0);
     }
 
     /**
@@ -160,7 +160,7 @@ public class RandomGeneratorProductTest {
             throws OutOfRangeException, IOException {
         /* ARRANGE*/
         final int length = 10000000;
-        RandomGeneratorProduct product  = new RandomGeneratorProduct(length);
+        RandomGeneratorProduct product = new RandomGeneratorProduct(length);
 
         /*
         ACT
@@ -173,10 +173,10 @@ public class RandomGeneratorProductTest {
         TestCase.assertTrue("Expected value 2 is not null", expValue2 != null);
 
         TestCase.assertTrue("Generated strings are not equal",
-                                           !expValue1.contentEquals(expValue2));
+                !expValue1.contentEquals(expValue2));
 
         TestCase.assertTrue("Generated string length",
-                                                  length == expValue1.length());
+                length == expValue1.length());
     }
 
 
@@ -191,8 +191,8 @@ public class RandomGeneratorProductTest {
         final int upper_limit = 100;
         final int length = 10000000;
 
-        RandomGeneratorProduct product  = new RandomGeneratorProduct
-                                               (lower_limit,upper_limit,length);
+        RandomGeneratorProduct product = new RandomGeneratorProduct
+                (lower_limit, upper_limit, length);
 
         /*
         ACT
@@ -201,14 +201,14 @@ public class RandomGeneratorProductTest {
         String expValue2 = product.generate();
 
         /* ASSERT */
-        TestCase.assertTrue("Expected value 1 is not null", expValue1!=null);
-        TestCase.assertTrue("Expected value 2 is not null", expValue2!=null);
+        TestCase.assertTrue("Expected value 1 is not null", expValue1 != null);
+        TestCase.assertTrue("Expected value 2 is not null", expValue2 != null);
 
         TestCase.assertTrue("Generated strings are not equal",
-                                           !expValue1.contentEquals(expValue2));
+                !expValue1.contentEquals(expValue2));
 
         TestCase.assertTrue("Generated string length",
-                                                  length == expValue1.length());
+                length == expValue1.length());
 
         doesContentMeetLimitSettings(upper_limit, lower_limit, expValue1);
         doesContentMeetLimitSettings(upper_limit, lower_limit, expValue2);
@@ -217,11 +217,11 @@ public class RandomGeneratorProductTest {
     private void doesContentMeetLimitSettings(final int upper_limit,
                                               final int lower_limit,
                                               final String expValue) {
-        for (int i = 0 ; i < expValue.length(); i++) {
+        for (int i = 0; i < expValue.length(); i++) {
             TestCase.assertTrue("lower limit character value",
-                                             expValue.charAt(i) >= lower_limit);
+                    expValue.charAt(i) >= lower_limit);
             TestCase.assertTrue("upper limit character value",
-                                             expValue.charAt(i) <= upper_limit);
+                    expValue.charAt(i) <= upper_limit);
         }
     }
 }

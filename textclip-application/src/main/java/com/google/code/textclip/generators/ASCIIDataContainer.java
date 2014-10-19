@@ -27,7 +27,6 @@ package com.google.code.textclip.generators;
 import com.google.code.textclip.exceptions.OutOfRangeException;
 
 public class ASCIIDataContainer {
-
     final static int CONST_LOWER_LIMIT = 1;
     final static int CONST_UPPER_LIMIT = 254;
     final static int CONST_LENGTH = 254;
@@ -54,7 +53,7 @@ public class ASCIIDataContainer {
 
     public ASCIIDataContainer(final int theLowerLimit, final int theUpperLimit)
             throws OutOfRangeException {
-        this(theLowerLimit,theUpperLimit,theUpperLimit - theLowerLimit+1);
+        this(theLowerLimit, theUpperLimit, theUpperLimit - theLowerLimit + 1);
     }
 
 
@@ -62,7 +61,7 @@ public class ASCIIDataContainer {
     }
 
     public ASCIIDataContainer(final int theLength) throws OutOfRangeException {
-        this(CONST_LOWER_LIMIT,CONST_UPPER_LIMIT,theLength);
+        this(CONST_LOWER_LIMIT, CONST_UPPER_LIMIT, theLength);
     }
 
     public int getLowerLimit() {
@@ -85,6 +84,7 @@ public class ASCIIDataContainer {
         return ((theTestValue < CONST_LOWER_LIMIT) ||
                 (theTestValue > CONST_UPPER_LIMIT));
     }
+
     private boolean isLengthOutOfRange(final int theTestValue) {
         return (theTestValue <= 0);
     }

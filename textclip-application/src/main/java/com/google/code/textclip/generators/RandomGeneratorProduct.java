@@ -34,7 +34,7 @@ public class RandomGeneratorProduct implements GeneratorProduct {
 
     public RandomGeneratorProduct(final int lower_limit, final int upper_limit, final int length)
             throws OutOfRangeException {
-        container = new ASCIIDataContainer(lower_limit,upper_limit,length);
+        container = new ASCIIDataContainer(lower_limit, upper_limit, length);
     }
 
     public RandomGeneratorProduct(final int length) throws OutOfRangeException {
@@ -45,7 +45,7 @@ public class RandomGeneratorProduct implements GeneratorProduct {
     public String generate() throws IOException {
         StringBuilder buffer = new StringBuilder(container.getLength());
         Random rand = new Random();
-        for (int i = 0 ; i < container.getLength(); i++) {
+        for (int i = 0; i < container.getLength(); i++) {
             int randomNum = rand.nextInt((container.getUpperLimit() - container.getLowerLimit()) + 1) + container.getLowerLimit();
             buffer.append((char) randomNum);
         }

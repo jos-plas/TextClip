@@ -51,14 +51,14 @@ public class ArgumentParser {
     @Option(name = "-a", aliases = {"--allchars"},
             usage = "produces a string that includes all character codes from" +
                     " 1 to 255 ",
-            forbids = {"-ch", "-co", "-t", "-f"})
+            forbids = {"-ch", "-co", "-t", "-f", "-ra"})
     private boolean allcharacters = false;
 
 
     @Option(name = "-ch", aliases = {"--char"}, metaVar = "<ASCII value>",
             usage = "produces a character from given ASCII value; \"-ch 32\" " +
                     "will produce a space character",
-            forbids = {"-a", "-co", "-t", "-f"})
+            forbids = {"-a", "-co", "-t", "-f", "-ra"})
     private String ascii_value = "";
 
 
@@ -71,21 +71,29 @@ public class ArgumentParser {
                     "the string. This is useful for pasting into fields that " +
                     "cut off text, so that you can tell how many characters" +
                     " were actually pasted.",
-            forbids = {"-ch", "-a", "-t", "-f"})
+            forbids = {"-ch", "-a", "-t", "-f", "-ra"})
     private String counterstring = "";
 
 
     @Option(name = "-t", aliases = {"--text"}, metaVar = "<text>",
             usage = "this text will be copied to the clipboard",
-            forbids = {"-ch", "co", "-a", "-f"})
+            forbids = {"-ch", "co", "-a", "-f", "-ra"})
     private String text = "";
 
 
     @Option(name = "-f", aliases = {"--filename"}, metaVar = "<file>",
             usage = "this text will be copied to the clipboard",
-            forbids = {"-ch", "co", "-a"})
+            forbids = {"-ch", "co", "-a", "-t", "-ra"})
     private File file = null;
 
+    /* RANDOM */
+    @Option(name = "-ra", aliases = {"--random"},
+            metaVar = "lower:upper:number",
+            usage = "\"-ra 65:66:4\" could produce \"ABBA\". In this case the" +
+                    "ASCII characters A(65) & B(66) are randomly chosen creating" +
+                    "a string of 4 characters.",
+            forbids = {"-co", "-ch", "-a", "-t", "-f"})
+    private String random_string = "";
     /*
     |---------------------------------------------------------------------------
     | Getter functions only.
@@ -179,4 +187,11 @@ public class ArgumentParser {
     }
 
 
+    public boolean isRandom() {
+        return !random_string.isEmpty();
+    }
+
+    public String getRandom() {
+        return random_string;
+    }
 }

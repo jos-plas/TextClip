@@ -31,6 +31,7 @@ import com.google.code.textclip.exceptions.OutOfRangeException;
 import com.google.code.textclip.helpers.ASCIIStringArgumentParser;
 import com.google.code.textclip.helpers.ArgumentParser;
 import com.google.code.textclip.helpers.CounterStringArgumentParser;
+import com.google.code.textclip.helpers.RandomStringArgumentParser;
 
 import java.io.FileNotFoundException;
 
@@ -49,10 +50,17 @@ public class GeneratorFactory {
             generatorProduct = new FromFileGeneratorProduct(options.getFile());
         } else if (options.isCounterstring()) {
             generatorProduct = createCounterStringFromInputString(options);
+        } else if (options.isRandom()) {
+            generatorProduct = createRandomProductFromInputString(options);
         } else {
             throw new InvalidGeneratorProductException("Specify correct option");
         }
         return generatorProduct;
+    }
+
+    private GeneratorProduct createRandomProductFromInputString(ArgumentParser options) throws FormatException, OutOfRangeException {
+        RandomStringArgumentParser rsap = new RandomStringArgumentParser(options.getRandom());
+        return new RandomGeneratorProduct(rsap.getLowerLimit(), rsap.getUpperLimit(), rsap.getLength());
     }
 
     private GeneratorProduct createCounterStringFromInputString(ArgumentParser options) throws FormatException, OutOfRangeException {
@@ -62,7 +70,7 @@ public class GeneratorFactory {
 
     private GeneratorProduct createASCIIProductFromInputString(ArgumentParser options) throws FormatException, OutOfRangeException {
         ASCIIStringArgumentParser asap = new ASCIIStringArgumentParser(options.getAscii_value());
-        return  new AsciiGeneratorProduct(asap.getLowerLimit(),asap.getUpperLimit());
+        return new AsciiGeneratorProduct(asap.getLowerLimit(), asap.getUpperLimit());
     }
 
 

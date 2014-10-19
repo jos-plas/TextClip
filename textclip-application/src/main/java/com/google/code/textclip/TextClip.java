@@ -97,15 +97,32 @@ public class TextClip implements ClipboardOwner {
      * constructs the test string. When the test string is constructed it is
      * copied to the clipboard.
      */
-    public void textToClipboard() throws IOException, OutOfRangeException, FormatException, FileSizeException, InvalidGeneratorProductException {
+    public void textToClipboard() {
         if (!this.options.isHelp()) {
-            this.toClipboard(this.factory.make(this.options).generate());
+            this.toClipboard(this.createTestString());
         } else {
             parser.printUsage(System.out);
             System.out.println();
         }
     }
 
+    public String createTestString() {
+        String retval = "";
+        try {
+            retval = this.factory.make(this.options).generate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (OutOfRangeException e) {
+            status = TextClipError.ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE;
+        } catch (FileSizeException e) {
+            e.printStackTrace();
+        } catch (FormatException e) {
+            status = TextClipError.ERROR_PARSING_ARGUMENT_WRONG_FORMAT;
+        } catch (InvalidGeneratorProductException e) {
+            e.printStackTrace();
+        }
+        return retval;
+    }
 
     /**
      * The TextClip class implements an application that reads the terminal
@@ -128,4 +145,6 @@ public class TextClip implements ClipboardOwner {
         System.out.println(message);
         System.exit(theApp.getStatus().toInt());
     }
+
+
 }

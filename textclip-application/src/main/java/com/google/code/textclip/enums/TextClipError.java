@@ -30,7 +30,8 @@ public enum TextClipError {
     NO_ERROR(0),
     ERROR_PARSING_ARGUMENTS(1),
     ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE(2),
-    ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING(3);
+    ERROR_PARSING_ARGUMENT_WRONG_FORMAT(3),
+    ERROR_FILESIZE(4);
 
     private final int error;
 
@@ -56,11 +57,15 @@ public enum TextClipError {
                 break;
 
             case 2:
-                result = "The chosen (extended) ASCII value is out of range (1..254).";
+                result = "The chosen value is out of range (1..254).";
                 break;
 
             case 3:
-                result = "Format of argument counter string should be like: -co \"10:a\".";
+                result = "Incorrect format e.g. counterstring: -co \"10:a\" or random: -ra \"10:20:30\".";
+                break;
+
+            case 4:
+                result = "Chosen file is unreadable, has a filesize of zero or is too large.";
                 break;
 
             case 0:

@@ -52,14 +52,21 @@ public class TextClipErrorTest {
     @Test
     public void contructor_ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE() throws Exception {
         TextClipError status = TextClipError.ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE;
-        TestCase.assertSame("ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE", "The chosen (extended) ASCII value is out of range (1..254).", status.getMessage());
+        TestCase.assertSame("ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE", "The chosen value is out of range (1..254).", status.getMessage());
         TestCase.assertSame("ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE integer", 2, status.toInt());
     }
 
     @Test
-    public void contructor_ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING() throws Exception {
-        TextClipError status = TextClipError.ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING;
-        TestCase.assertSame("ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING", "Format of argument counter string should be like: -co \"10:a\".", status.getMessage());
-        TestCase.assertSame("ERROR_PARSING_ARGUMENT_WRONG_FORMAT_COUNTERSTRING integer", 3, status.toInt());
+    public void contructor_ERROR_PARSING_ARGUMENT_WRONG_FORMAT() throws Exception {
+        TextClipError status = TextClipError.ERROR_PARSING_ARGUMENT_WRONG_FORMAT;
+        TestCase.assertSame("ERROR_PARSING_ARGUMENT_WRONG_FORMAT", "Incorrect format e.g. counterstring: -co \"10:a\" or random: -ra \"10:20:30\".", status.getMessage());
+        TestCase.assertSame("ERROR_PARSING_ARGUMENT_WRONG_FORMAT integer", 3, status.toInt());
+    }
+
+    @Test
+    public void contructor_ERROR_PARSING_ARGUMENT_FILESIZE() throws Exception {
+        TextClipError status = TextClipError.ERROR_FILESIZE;
+        TestCase.assertSame("ERROR_PARSING_ARGUMENT_FILESIZE", "Chosen file is unreadable, has a filesize of zero or is too large.", status.getMessage());
+        TestCase.assertSame("ERROR_PARSING_ARGUMENT_FILESIZE integer", 4, status.toInt());
     }
 }

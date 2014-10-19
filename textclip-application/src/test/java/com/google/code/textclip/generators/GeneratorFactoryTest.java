@@ -30,6 +30,7 @@ import com.google.code.textclip.exceptions.InvalidGeneratorProductException;
 import com.google.code.textclip.exceptions.OutOfRangeException;
 import com.google.code.textclip.helpers.ArgumentParser;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -46,6 +47,24 @@ public class GeneratorFactoryTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
+    private CmdLineParser parser = null;
+    private ArgumentParser options = null;
+
+    /**
+     * Methods with the annotation ’Before ’ are executed before every test.
+     * The test object should be brought to the initial state all tests
+     * assume it to be in.
+     * <p/>
+     * In case of the ArgumentParser the initialization needs to be done
+     * only once. The @BeforeClass would be the best choice, but that
+     * method needs to be declared static.
+     */
+    @Before
+    public void initialize() {
+        options = new ArgumentParser();
+        parser = new CmdLineParser(options);
+    }
+
     /**
      * Validates whether option character creates the correct product. Be aware: do not
      * test argument parser etc.
@@ -57,8 +76,6 @@ public class GeneratorFactoryTest {
         /*
         ARRANGE
          */
-        final ArgumentParser options = new ArgumentParser();
-        final CmdLineParser parser = new CmdLineParser(options);
 
         String[] testData = {"-ch", "65"};
         parser.parseArgument(testData);
@@ -87,9 +104,6 @@ public class GeneratorFactoryTest {
         /*
         ARRANGE
          */
-        final ArgumentParser options = new ArgumentParser();
-        final CmdLineParser parser = new CmdLineParser(options);
-
         String[] testData = {"-ch", "65:80"};
         parser.parseArgument(testData);
 
@@ -106,8 +120,6 @@ public class GeneratorFactoryTest {
     }
 
 
-
-
     /**
      * Validates whether option all characters creates the correct product.
      */
@@ -118,9 +130,6 @@ public class GeneratorFactoryTest {
         /*
         ARRANGE
          */
-        final ArgumentParser options = new ArgumentParser();
-        final CmdLineParser parser = new CmdLineParser(options);
-
         String[] testData = {"-a"};
         parser.parseArgument(testData);
 
@@ -147,11 +156,7 @@ public class GeneratorFactoryTest {
         /*
         ARRANGE
          */
-        final ArgumentParser options = new ArgumentParser();
-        final CmdLineParser parser = new CmdLineParser(options);
-
         String[] testData = {"-co", "25:d"};
-
         parser.parseArgument(testData);
 
         /*
@@ -164,7 +169,6 @@ public class GeneratorFactoryTest {
         ASSERT
         */
         TestCase.assertEquals("Generated counter string", "d2d4d6d8d10d13d16d19d22dd", generatedString);
-
     }
 
     /**
@@ -177,9 +181,6 @@ public class GeneratorFactoryTest {
         /*
         ARRANGE
          */
-        final ArgumentParser options = new ArgumentParser();
-        final CmdLineParser parser = new CmdLineParser(options);
-
         final String content = "This is the content";
         File theFile = createFile(content);
 
@@ -210,10 +211,7 @@ public class GeneratorFactoryTest {
         /*
         ARRANGE
          */
-        final ArgumentParser options = new ArgumentParser();
-        final CmdLineParser parser = new CmdLineParser(options);
-
-        String[] testData = {"-h"};
+        String[] testData = {"-h"}; /* needs to be a valid argument! */
         parser.parseArgument(testData);
 
         /*
@@ -237,4 +235,38 @@ public class GeneratorFactoryTest {
     }
 
 
+    /***************************************************************************
+     * RANDOM
+     **************************************************************************/
+    /**
+     * Validates whether option counterstring creates the correct product.
+     */
+    @Test
+    public void make_withOptionRandom()
+            throws IOException, FileSizeException, OutOfRangeException,
+            FormatException, CmdLineException,
+            InvalidGeneratorProductException {
+
+        /*
+        ARRANGE
+         */
+        String[] testData = {"-ra", "50:60:9999"};
+        parser.parseArgument(testData);
+
+        /*
+        ACT
+         */
+        GeneratorProduct product = new GeneratorFactory().make(options);
+        String expVal1 = product.generate();
+        String expVal2 = product.generate();
+
+        /*
+        ASSERT
+        */
+        TestCase.assertNotSame("Generated random string", expVal1, expVal2);
+        TestCase.assertTrue("Generated random string 1 not null", expVal1 != null);
+        TestCase.assertTrue("Generated random string 2 not null", expVal2 != null);
+        TestCase.assertTrue("Generated random string 1 length", expVal1.length() == 9999);
+        TestCase.assertTrue("Generated random string 2 length", expVal2.length() == 9999);
+    }
 }

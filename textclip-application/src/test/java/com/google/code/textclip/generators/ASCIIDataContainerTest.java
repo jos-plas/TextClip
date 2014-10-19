@@ -40,7 +40,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitHasNegativeValue3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(-10,100,1);
+        new ASCIIDataContainer(-10, 100, 1);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitHasZeroValue3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(0,100,1);
+        new ASCIIDataContainer(0, 100, 1);
     }
 
     /**
@@ -60,7 +60,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitLargerThanUpperLimit3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(101,100,1);
+        new ASCIIDataContainer(101, 100, 1);
     }
 
 
@@ -71,7 +71,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitOverMax3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(255,10,1);
+        new ASCIIDataContainer(255, 10, 1);
     }
 
 
@@ -82,7 +82,7 @@ public class ASCIIDataContainerTest {
     public void constructor_UpperLimitHasNegativeValue3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(10,-100,1);
+        new ASCIIDataContainer(10, -100, 1);
     }
 
     /**
@@ -92,7 +92,7 @@ public class ASCIIDataContainerTest {
     public void constructor_UpperLimitHasZeroValue3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(100,0,1);
+        new ASCIIDataContainer(100, 0, 1);
     }
 
     /**
@@ -102,7 +102,7 @@ public class ASCIIDataContainerTest {
     public void constructor_UpperLimitOverMax3Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(101,255,1);
+        new ASCIIDataContainer(101, 255, 1);
     }
 
     /**
@@ -114,7 +114,7 @@ public class ASCIIDataContainerTest {
         /*
         ARRANGE & ACT
          */
-        new ASCIIDataContainer(100,101,-1);
+        new ASCIIDataContainer(100, 101, -1);
     }
 
     /**
@@ -126,7 +126,7 @@ public class ASCIIDataContainerTest {
         /*
         ARRANGE & ACT
          */
-        new ASCIIDataContainer(100,101,0);
+        new ASCIIDataContainer(100, 101, 0);
     }
 
 
@@ -137,7 +137,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitHasNegativeValue2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(-10,100);
+        new ASCIIDataContainer(-10, 100);
     }
 
     /**
@@ -147,7 +147,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitHasZeroValue2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(0,100);
+        new ASCIIDataContainer(0, 100);
     }
 
     /**
@@ -157,7 +157,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitLargerThanUpperLimit2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(101,100);
+        new ASCIIDataContainer(101, 100);
     }
 
 
@@ -168,7 +168,7 @@ public class ASCIIDataContainerTest {
     public void constructor_LowerLimitOverMax2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(255,10);
+        new ASCIIDataContainer(255, 10);
     }
 
 
@@ -179,7 +179,7 @@ public class ASCIIDataContainerTest {
     public void constructor_UpperLimitHasNegativeValue2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(10,-100);
+        new ASCIIDataContainer(10, -100);
     }
 
     /**
@@ -189,7 +189,7 @@ public class ASCIIDataContainerTest {
     public void constructor_UpperLimitHasZeroValue2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(100,0);
+        new ASCIIDataContainer(100, 0);
     }
 
     /**
@@ -199,10 +199,10 @@ public class ASCIIDataContainerTest {
     public void constructor_UpperLimitOverMax2Args_OutOfRangeException()
             throws OutOfRangeException, IOException {
         /* ARRANGE, ACT & ASSERT */
-        new ASCIIDataContainer(101,255);
+        new ASCIIDataContainer(101, 255);
     }
 
-    
+
     /**
      * validates a Happy flow for three arguments.
      */
@@ -212,14 +212,14 @@ public class ASCIIDataContainerTest {
         /*
         ARRANGE & ACT
          */
-        ASCIIDataContainer container  = new ASCIIDataContainer(1,254,2);
+        ASCIIDataContainer container = new ASCIIDataContainer(1, 254, 2);
         int expectedLowerLimit = container.getLowerLimit();
         int expectedUpperLimit = container.getUpperLimit();
         int expectedLength = container.getLength();
 
-        TestCase.assertTrue("Lower limit",1 == expectedLowerLimit);
-        TestCase.assertTrue("Upper limit",254 == expectedUpperLimit);
-        TestCase.assertTrue("Length",2 == expectedLength);
+        TestCase.assertTrue("Lower limit", 1 == expectedLowerLimit);
+        TestCase.assertTrue("Upper limit", 254 == expectedUpperLimit);
+        TestCase.assertTrue("Length", 2 == expectedLength);
     }
 
     /**
@@ -231,14 +231,14 @@ public class ASCIIDataContainerTest {
         /*
         ARRANGE & ACT
          */
-        ASCIIDataContainer container  = new ASCIIDataContainer(99,100);
+        ASCIIDataContainer container = new ASCIIDataContainer(99, 100);
         int expectedLowerLimit = container.getLowerLimit();
         int expectedUpperLimit = container.getUpperLimit();
         int expectedLength = container.getLength();
 
-        TestCase.assertTrue("Lower limit",99 == expectedLowerLimit);
-        TestCase.assertTrue("Upper limit",100 == expectedUpperLimit);
-        TestCase.assertTrue("Length",2 == expectedLength);
+        TestCase.assertTrue("Lower limit", 99 == expectedLowerLimit);
+        TestCase.assertTrue("Upper limit", 100 == expectedUpperLimit);
+        TestCase.assertTrue("Length", 2 == expectedLength);
     }
 
 
