@@ -105,7 +105,7 @@ public class AsciiGeneratorProductTest {
     }
 
     /**
-     * validates the lower boundaries with a negative value.
+     * validates the happy flow.
      */
     @Test
     public void generate_HapplyFlow() throws OutOfRangeException, IOException {
@@ -179,7 +179,7 @@ public class AsciiGeneratorProductTest {
      */
 
     /**
-     * validates the lower limit of the character value (-1).
+     * validates the lower limit of the character value (-10).
      */
     @Test(expected = OutOfRangeException.class)
     public void exceptionLowerLimitMoreNegative() throws OutOfRangeException {

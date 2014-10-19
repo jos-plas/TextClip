@@ -47,7 +47,7 @@ public class GeneratorFactoryTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     /**
-     * Validates whether option character creates the correct product. Be aware do not
+     * Validates whether option character creates the correct product. Be aware: do not
      * test argument parser etc.
      */
     @Test
@@ -75,6 +75,38 @@ public class GeneratorFactoryTest {
         TestCase.assertEquals("Generated character (String)", "A", generatedString);
 
     }
+
+    /**
+     * Validates whether option character creates the correct product. Be aware: do not
+     * test argument parser etc.
+     */
+    @Test
+    public void make_withOptionCH65To80()
+            throws IOException, FileSizeException, OutOfRangeException, FormatException, CmdLineException, InvalidGeneratorProductException {
+
+        /*
+        ARRANGE
+         */
+        final ArgumentParser options = new ArgumentParser();
+        final CmdLineParser parser = new CmdLineParser(options);
+
+        String[] testData = {"-ch", "65:80"};
+        parser.parseArgument(testData);
+
+        /*
+        ACT
+         */
+        GeneratorProduct product = new GeneratorFactory().make(options);
+        String generatedString = product.generate();
+
+        /*
+        ASSERT
+        */
+        TestCase.assertEquals("Generated characters string", "ABCDEFGHIJKLMNOP", generatedString);
+    }
+
+
+
 
     /**
      * Validates whether option all characters creates the correct product.

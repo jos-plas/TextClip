@@ -29,28 +29,33 @@ import com.google.code.textclip.exceptions.FormatException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CounterStringArgumentReader {
-    private int length = 1;
-    private char character = '?';
+public class ASCIIStringArgumentParser {
+    private int upper_limit = 0;
+    private int lower_limit = 0;
 
-    public CounterStringArgumentReader(final String optionString)
+    public ASCIIStringArgumentParser(final String optionString)
             throws FormatException {
-        Pattern pattern = Pattern.compile("^(\\d+):(.)$");
+        Pattern pattern = Pattern.compile("^(\\d+){1}(:(\\d+)){0,1}$");
         Matcher matcher = pattern.matcher(optionString);
 
         if (matcher.matches()) {
-            this.length = Integer.parseInt(matcher.group(1));
-            this.character = matcher.group(2).charAt(0);
+            parseGroups(matcher);
         } else {
-            throw new FormatException("String does not meet requirements, e.g. 25:d.");
+            throw new FormatException("String does not meet requirements, e.g. 25:30 or e.g. 25.");
         }
     }
 
-    public int getLength() {
-        return this.length;
+    public int getUpperLimit() {
+        return upper_limit;
     }
 
-    public char getCharacter() {
-        return this.character;
+
+    public int getLowerLimit() {
+        return lower_limit;
+    }
+
+    private void parseGroups(Matcher matcher) {
+        this.lower_limit = Integer.parseInt(matcher.group(1));
+        this.upper_limit = (matcher.group(3) != null) ? Integer.parseInt(matcher.group(3)) : this.lower_limit;
     }
 }

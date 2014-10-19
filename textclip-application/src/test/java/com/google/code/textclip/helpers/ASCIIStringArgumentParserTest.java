@@ -28,8 +28,8 @@ import com.google.code.textclip.exceptions.FormatException;
 import junit.framework.TestCase;
 import org.junit.Test;
 
-public class CounterStringArgumentReaderTest {
-    final String actualExceptionMessage = "String does not meet requirements, e.g. 25:d.";
+public class ASCIIStringArgumentParserTest {
+    final String actualExceptionMessage = "String does not meet requirements, e.g. 25:30 or e.g. 25.";
 
     @Test
     public void constructor_EmptyOptionString_FormatException() {
@@ -42,7 +42,7 @@ public class CounterStringArgumentReaderTest {
         ACT & ASSERT
          */
         try {
-            new CounterStringArgumentReader("");
+            new ASCIIStringArgumentParser("");
         } catch (FormatException e) {
 
             TestCase.assertSame("Option string is empty.", e.getMessage(), actualExceptionMessage);
@@ -52,8 +52,29 @@ public class CounterStringArgumentReaderTest {
     }
 
     @Test
-    public void constructor_lengthOnly_FormatException() {
+    public void constructor_lowerLimitOnly_FormatException() throws FormatException {
         /*
+        ARRANGE
+         */
+        final String value = "32";
+
+        ASCIIStringArgumentParser asar = new ASCIIStringArgumentParser(value);
+
+        /*
+        ACT
+         */
+        int actValue = asar.getLowerLimit();
+
+
+        /*
+        ASSERT
+        */
+        TestCase.assertTrue("Single character", 32 == actValue);
+    }
+
+    @Test
+    public void constructor_NegativeLowerLimit_FormatException() {
+                /*
         ARRANGE
          */
         boolean exception = false;
@@ -62,7 +83,29 @@ public class CounterStringArgumentReaderTest {
         ACT
          */
         try {
-            new CounterStringArgumentReader("25");
+            new ASCIIStringArgumentParser("-25:w");
+        } catch (FormatException e) {
+            TestCase.assertSame("Option string contains negative lower limit", e.getMessage(), actualExceptionMessage);
+            exception = true;
+        }
+        /*
+        ASSERT
+        */
+        TestCase.assertTrue("Exception has been thrown (final check)", exception);
+    }
+
+    @Test
+    public void constructor_lowerLimitWithSeparator_FormatException() {
+                /*
+        ARRANGE
+         */
+        boolean exception = false;
+
+        /*
+        ACT
+         */
+        try {
+            new ASCIIStringArgumentParser("25:");
         } catch (FormatException e) {
             TestCase.assertSame("Option String contains text about missing separator", e.getMessage(), actualExceptionMessage);
             exception = true;
@@ -74,7 +117,7 @@ public class CounterStringArgumentReaderTest {
     }
 
     @Test
-    public void constructor_lengthWithSeparator_FormatException() {
+    public void constructor_multipleSeparators_FormatException() {
                 /*
         ARRANGE
          */
@@ -84,9 +127,9 @@ public class CounterStringArgumentReaderTest {
         ACT
          */
         try {
-            new CounterStringArgumentReader("25:");
+            new ASCIIStringArgumentParser("25:30:40");
         } catch (FormatException e) {
-            TestCase.assertSame("Option String contains text about missing separator", e.getMessage(), actualExceptionMessage);
+            TestCase.assertSame("Option String contains text about multiple separator", e.getMessage(), actualExceptionMessage);
             exception = true;
         }
         /*
@@ -96,7 +139,7 @@ public class CounterStringArgumentReaderTest {
     }
 
     @Test
-    public void constructor_NegativeLength_FormatException() {
+    public void constructor__FormatException() {
                 /*
         ARRANGE
          */
@@ -106,29 +149,7 @@ public class CounterStringArgumentReaderTest {
         ACT
          */
         try {
-            new CounterStringArgumentReader("-25:w");
-        } catch (FormatException e) {
-            TestCase.assertSame("Option string contains negative length", e.getMessage(), actualExceptionMessage);
-            exception = true;
-        }
-        /*
-        ASSERT
-        */
-        TestCase.assertTrue("Exception has been thrown (final check)", exception);
-    }
-
-    @Test
-    public void constructor_MultipleCharacters_FormatException() {
-                /*
-        ARRANGE
-         */
-        boolean exception = false;
-
-        /*
-        ACT
-         */
-        try {
-            new CounterStringArgumentReader("25:aa");
+            new ASCIIStringArgumentParser("25:-10");
         } catch (FormatException e) {
             TestCase.assertSame("Option string contains multiple", e.getMessage(), actualExceptionMessage);
             exception = true;
@@ -144,27 +165,13 @@ public class CounterStringArgumentReaderTest {
         /*
         ARRANGE & ACT
          */
-        CounterStringArgumentReader csar = new CounterStringArgumentReader("25:A");
+        ASCIIStringArgumentParser asar = new ASCIIStringArgumentParser("25:30");
 
         /*
         ASSERT
         */
-        TestCase.assertSame("Length", 25, csar.getLength());
-        TestCase.assertSame("Character", 'A', csar.getCharacter());
-    }
-
-    @Test
-    public void constructor_CorrectDoubleSemiColumnOptionString() throws FormatException {
-        /*
-        ARRANGE & ACT
-         */
-        CounterStringArgumentReader csar = new CounterStringArgumentReader("25::");
-
-        /*
-        ASSERT
-        */
-        TestCase.assertSame("Length", 25, csar.getLength());
-        TestCase.assertSame("Character", ':', csar.getCharacter());
+        TestCase.assertTrue("Lower Limit", 25 == asar.getLowerLimit());
+        TestCase.assertTrue("Upper Limit", 30 == asar.getUpperLimit());
     }
 
 }

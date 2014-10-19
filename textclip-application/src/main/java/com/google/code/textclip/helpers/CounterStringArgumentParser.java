@@ -22,33 +22,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.google.code.textclip.generators;
+package com.google.code.textclip.helpers;
 
-import com.google.code.textclip.exceptions.OutOfRangeException;
+import com.google.code.textclip.exceptions.FormatException;
 
-public class AsciiGeneratorProduct implements GeneratorProduct {
-    private ASCIIDataContainer container;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    public AsciiGeneratorProduct(final int theLowerLimit, final int theUpperLimit)
-            throws OutOfRangeException {
-        container = new ASCIIDataContainer(theLowerLimit,theUpperLimit);
-    }
+public class CounterStringArgumentParser {
+    private int length = 1;
+    private char character = '?';
 
-    public AsciiGeneratorProduct(final int character) throws OutOfRangeException {
-        this(character, character);
-    }
+    public CounterStringArgumentParser(final String optionString)
+            throws FormatException {
+        Pattern pattern = Pattern.compile("^(\\d+):(.)$");
+        Matcher matcher = pattern.matcher(optionString);
 
-    public AsciiGeneratorProduct() throws OutOfRangeException {
-        container = new ASCIIDataContainer();
-    }
-
-    @Override
-    public String generate() {
-        String ascii = "";
-        for (int i = container.getLowerLimit(); i <= container.getUpperLimit(); i++) {
-            ascii += Character.toString((char) i);
+        if (matcher.matches()) {
+            this.length = Integer.parseInt(matcher.group(1));
+            this.character = matcher.group(2).charAt(0);
+        } else {
+            throw new FormatException("String does not meet requirements, e.g. 25:d.");
         }
+    }
 
-        return ascii;
+    public int getLength() {
+        return this.length;
+    }
+
+    public char getCharacter() {
+        return this.character;
     }
 }

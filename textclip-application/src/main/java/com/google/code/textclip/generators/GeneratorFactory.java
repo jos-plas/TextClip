@@ -28,8 +28,9 @@ import com.google.code.textclip.exceptions.FileSizeException;
 import com.google.code.textclip.exceptions.FormatException;
 import com.google.code.textclip.exceptions.InvalidGeneratorProductException;
 import com.google.code.textclip.exceptions.OutOfRangeException;
+import com.google.code.textclip.helpers.ASCIIStringArgumentParser;
 import com.google.code.textclip.helpers.ArgumentParser;
-import com.google.code.textclip.helpers.CounterStringArgumentReader;
+import com.google.code.textclip.helpers.CounterStringArgumentParser;
 
 import java.io.FileNotFoundException;
 
@@ -39,21 +40,29 @@ public class GeneratorFactory {
      */
     public GeneratorProduct make(ArgumentParser options)
             throws OutOfRangeException, FileNotFoundException, FileSizeException, FormatException, InvalidGeneratorProductException {
-        GeneratorProduct generatorProduct = null;
+        GeneratorProduct generatorProduct;
         if (options.isAllcharacters()) {
             generatorProduct = new AsciiGeneratorProduct();
         } else if (options.isAsciiValue()) {
-            generatorProduct = new AsciiGeneratorProduct(Integer.parseInt(options.getAscii_value()));
+            generatorProduct = createASCIIProductFromInputString(options);
         } else if (options.isFile()) {
             generatorProduct = new FromFileGeneratorProduct(options.getFile());
         } else if (options.isCounterstring()) {
-            CounterStringArgumentReader csar = new CounterStringArgumentReader(options.getCounterstring());
-            generatorProduct = new CounterStringGeneratorProduct(csar.getCharacter(), csar.getLength());
+            generatorProduct = createCounterStringFromInputString(options);
         } else {
             throw new InvalidGeneratorProductException("Specify correct option");
         }
-
         return generatorProduct;
+    }
+
+    private GeneratorProduct createCounterStringFromInputString(ArgumentParser options) throws FormatException, OutOfRangeException {
+        CounterStringArgumentParser csar = new CounterStringArgumentParser(options.getCounterstring());
+        return new CounterStringGeneratorProduct(csar.getCharacter(), csar.getLength());
+    }
+
+    private GeneratorProduct createASCIIProductFromInputString(ArgumentParser options) throws FormatException, OutOfRangeException {
+        ASCIIStringArgumentParser asap = new ASCIIStringArgumentParser(options.getAscii_value());
+        return  new AsciiGeneratorProduct(asap.getLowerLimit(),asap.getUpperLimit());
     }
 
 

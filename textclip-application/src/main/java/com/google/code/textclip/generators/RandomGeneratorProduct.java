@@ -26,29 +26,30 @@ package com.google.code.textclip.generators;
 
 import com.google.code.textclip.exceptions.OutOfRangeException;
 
-public class AsciiGeneratorProduct implements GeneratorProduct {
+import java.io.IOException;
+import java.util.Random;
+
+public class RandomGeneratorProduct implements GeneratorProduct {
     private ASCIIDataContainer container;
 
-    public AsciiGeneratorProduct(final int theLowerLimit, final int theUpperLimit)
+    public RandomGeneratorProduct(final int lower_limit, final int upper_limit, final int length)
             throws OutOfRangeException {
-        container = new ASCIIDataContainer(theLowerLimit,theUpperLimit);
+        container = new ASCIIDataContainer(lower_limit,upper_limit,length);
     }
 
-    public AsciiGeneratorProduct(final int character) throws OutOfRangeException {
-        this(character, character);
-    }
-
-    public AsciiGeneratorProduct() throws OutOfRangeException {
-        container = new ASCIIDataContainer();
+    public RandomGeneratorProduct(final int length) throws OutOfRangeException {
+        container = new ASCIIDataContainer(length);
     }
 
     @Override
-    public String generate() {
-        String ascii = "";
-        for (int i = container.getLowerLimit(); i <= container.getUpperLimit(); i++) {
-            ascii += Character.toString((char) i);
+    public String generate() throws IOException {
+        StringBuilder buffer = new StringBuilder(container.getLength());
+        Random rand = new Random();
+        for (int i = 0 ; i < container.getLength(); i++) {
+            int randomNum = rand.nextInt((container.getUpperLimit() - container.getLowerLimit()) + 1) + container.getLowerLimit();
+            buffer.append((char) randomNum);
         }
 
-        return ascii;
+        return buffer.toString();
     }
 }
