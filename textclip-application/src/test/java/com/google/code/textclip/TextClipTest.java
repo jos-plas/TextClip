@@ -30,9 +30,14 @@ import com.google.code.textclip.exceptions.FormatException;
 import com.google.code.textclip.exceptions.InvalidGeneratorProductException;
 import com.google.code.textclip.exceptions.OutOfRangeException;
 import junit.framework.TestCase;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.kohsuke.args4j.CmdLineParser;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -41,6 +46,8 @@ import java.io.IOException;
  * start with functionality used by other methods.
  */
 public class TextClipTest {
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
     private CmdLineParser parser = null;
 //
 //
@@ -73,32 +80,8 @@ public class TextClipTest {
 //        return result;
 //    }
 //
-//    /**
-//     * Methods with the annotation ’Before ’ are executed before every test.
-//     * The test object should be brought to the initial state all tests
-//     * assume it to be in.
-//     * <p/>
-//     * In case of the ArgumentParser the initialization needs to be done
-//     * only once. The @BeforeClass would be the best choice, but that
-//     * method needs to be declared static.
-//     */
-//    @Before
-//    public void initializeParser() {
-//        // Read arguments in the ArgumentParser will not be evaluated. Therefore
-//        // declare at method call:
-//        this.parser = new CmdLineParser(new ArgumentParser());
-//    }
-//
-//    /**
-//     * Validate whether the command line parser object has been created
-//     * successfully.
-//     */
-//    @Test
-//    public void testInitObject() {
-//        TestCase.assertNotNull("Parser object is created and can be used for " +
-//                "further testing.", this.parser);
-//    }
-//
+
+
 
     /**
      * Validate Forbidden commandline combinations
@@ -172,31 +155,6 @@ public class TextClipTest {
         }
     }
 
-//    /**
-//     * Validate the same commandline option twice.
-//     * <p/>
-//     * Args4j has a problem using the same commandline option twice. This test
-//     * is ony present to investigate this arg4j issue.
-//     */
-//    @Test
-//    public void constructor_TheSameArgumentTwiceFileNameOnly() {
-//        final String[][] argumentsArray = {
-//                {"-f", "FILENAME", "-f", "FILENAME"}
-//        };
-//
-//        for (String[] arguments : argumentsArray) {
-//            TextClip theTestApp = new TextClip(arguments);
-//            String buffer = "";
-//            for (String argument : arguments) {
-//                buffer += String.format("%s ", argument);
-//            }
-//            TestCase.assertEquals("Tested arguments: \"" + buffer + "\"",
-//                    TextClipError.NO_ERROR,theTestApp.getStatus());
-//
-//        }
-//    }
-
-
     /**
      * Validates the all characters options op textclipt (-a and --allchars).
      */
@@ -253,33 +211,49 @@ public class TextClipTest {
                     theApp.getStatus().getMessage());
         }
     }
-//
-//    /**
-//     * Validates the character options of textclipt (-f and --filename).
-//     */
-//    @Test
-//    public void optionFilename() {
-//        final String[][][] argumentsResultArray =
-//                {       // Format of argumentsResultArray
-//                        // INPUT: argument, value; RESULT: value, error message.
-//                        {{"-f", "src/test/resources/textgenerator/file_has_no_content.txt"}, {"", ""}},
-//                        {{"-f", "src/test/resources/textgenerator/file_has_content.txt"}, {"This is a test file with a little content.", ""}},
-//                        {{"-f", "file_does_not_exist.txt"}, {"", ""}}
-//                };
-//
-////        for (String[][] arguments:argumentsResultArray) {
-////            TextClip theApp = new TextClip(arguments[0]);
-////            theApp.createTestString();
-////            TestCase.assertEquals("Test on value ("+ arguments[0][0]+", "+arguments[0][1] +")",
-////                    arguments[1][0],
-////                    theApp.getTestString());
-////            TestCase.assertEquals("Test on error message (" + arguments[0][0] + ", " + arguments[0][1] + ")",
-////                    arguments[1][1],
-////                    theApp.getStatus().getMessage());
-////        }
-//    }
-//
-//
+
+    /**
+     * Validates the character options of textclipt (-f and --filename).
+     */
+    @Test
+    public void constuctor_optionFilename() throws IOException {
+        String content = "This file has a little content";
+        File testFileWithContent = createFile(testFolder,"content.txt",content);
+        File testFileWithoutContent = createFile(testFolder,"empty.txt","");
+
+        final String[][][] argumentsResultArray =
+                {       // Format of argumentsResultArray
+                        // INPUT: argument, value; RESULT: value, error message.
+                        {{"-f", testFileWithContent.getAbsolutePath()}, {content, ""}},
+                        {{"-f", testFileWithoutContent.getAbsolutePath()}, {"", "Chosen file is unreadable, has a filesize of zero or is too large."}},
+                        {{"-f", "file_does_not_exist.txt"}, {"", "Chosen file is unreadable, has a filesize of zero or is too large."}}
+                };
+
+        for (String[][] arguments:argumentsResultArray) {
+            TextClip theApp = new TextClip(arguments[0]);
+            String actValue = theApp.createTestString();
+            TestCase.assertEquals("Test on value ("+ arguments[0][0]+", "+arguments[0][1] +")",
+                    arguments[1][0],
+                    actValue);
+            TestCase.assertEquals("Test on error message (" + arguments[0][0] + ", " + arguments[0][1] + ")",
+                    arguments[1][1],
+                    theApp.getStatus().getMessage());
+        }
+    }
+
+    private File createFile(final TemporaryFolder testFolder,
+                            final String fileName,
+                            final String testContent) throws IOException {
+        File theTestFile = testFolder.newFile(fileName);
+
+        if (!testContent.isEmpty()) {
+            BufferedWriter output = new BufferedWriter(new FileWriter(theTestFile));
+            output.write(testContent);
+            output.close();
+        }
+        return theTestFile;
+    }
+
 
     /**
      * Validates the counterstring options of textclipt (-co and --counterstring).
@@ -338,6 +312,32 @@ public class TextClipTest {
 
         for (String[][] arguments : argumentsResultArray) {
             String[] args = {arguments[0][0], arguments[0][1] + ":" + arguments[0][2] + ":" + arguments[0][3]};
+            TextClip theApp = new TextClip(args);
+            String actValue = theApp.createTestString();
+
+            TestCase.assertEquals("Length", Integer.parseInt(arguments[1][0]),
+                    actValue.length());
+
+            TestCase.assertEquals("Test on error message (" + args[0] + ", " + args[1] + ")",
+                    arguments[1][1],
+                    theApp.getStatus().getMessage());
+        }
+    }
+
+    /**
+     * Validates the counterstring options of textclipt (-co and --counterstring).
+     */
+    @Test
+    public void constructor_optionText() {
+        final String[][][] argumentsResultArray =
+                {       // Format of argumentsResultArray
+                        // INPUT: argument, length; RESULT: value.
+                        {{"-t", "65"}, {"65", ""}},
+                        {{"-t", ""}, {"", ""}}
+                };
+
+        for (String[][] arguments : argumentsResultArray) {
+            String[] args = {arguments[0][0], arguments[0][1]};
             TextClip theApp = new TextClip(args);
             String actValue = theApp.createTestString();
 

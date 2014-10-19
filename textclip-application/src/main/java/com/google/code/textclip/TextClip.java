@@ -111,11 +111,11 @@ public class TextClip implements ClipboardOwner {
         try {
             retval = this.factory.make(this.options).generate();
         } catch (IOException e) {
-            e.printStackTrace();
+            status = TextClipError.ERROR_FILESIZE;
         } catch (OutOfRangeException e) {
             status = TextClipError.ERROR_PARSING_ARGUMENT_ASCII_INT_VALUE_OUT_OF_RANGE;
         } catch (FileSizeException e) {
-            e.printStackTrace();
+            status = TextClipError.ERROR_FILESIZE;
         } catch (FormatException e) {
             status = TextClipError.ERROR_PARSING_ARGUMENT_WRONG_FORMAT;
         } catch (InvalidGeneratorProductException e) {

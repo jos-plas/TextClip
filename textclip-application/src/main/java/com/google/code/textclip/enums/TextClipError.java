@@ -50,7 +50,7 @@ public enum TextClipError {
     }
 
     public String getMessage() {
-        String result = ""; // NO_ERROR
+        String result="";
         switch (error) {
             case 1:
                 result = "There is a mistake in the arguments; use --help for detailed argument information.";

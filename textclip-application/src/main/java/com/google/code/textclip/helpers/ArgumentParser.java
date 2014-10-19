@@ -76,7 +76,7 @@ public class ArgumentParser {
 
 
     @Option(name = "-t", aliases = {"--text"}, metaVar = "<text>",
-            usage = "this text will be copied to the clipboard",
+            usage = "<text> will be copied to the clipboard (hint: use quotes \")",
             forbids = {"-ch", "co", "-a", "-f", "-ra"})
     private String text = "";
 
